@@ -2,24 +2,31 @@
 require_once 'DBconnect.php';
 require_once 'ContactManager.php';
 class Contact {
-    public function getId() {
+    public function getId() { // Récupère l'ID
         $contactManager = new ContactManager();
         $contacts = $contactManager->findAll();
 
-        foreach ($contacts as $contact) {
-            echo "ID: " . $contact['id'] . "\n";
+        if (isset($contacts['id'])) {
+            foreach ($contacts as $contact) {
+                echo "ID: " . $contact['id'] . "\n";
+            }
+        } else {
+            return NULL;
         }
     }
-    public function getName() {
+    public function getName() { // Récupère et affiche les noms des contacts
         $contactManager = new ContactManager();
         $contacts = $contactManager->findAll();
-
-        foreach ($contacts as $contact) {
-            echo "Name: " . $contact['name'] . "\n";
+        if (isset($contacts['name'])) {
+            foreach ($contacts as $contact) {
+                echo "Name: " . $contact['name'] . "\n";
+            }
+        } else {
+            return NULL;
         }
     }
 
-    public function toString() {
+    public function toString() { // Affiche toutes les informations des contacts sous forme de chaîne de caractères
         $contactManager = new ContactManager();
         $contacts = $contactManager->findAll();
 
