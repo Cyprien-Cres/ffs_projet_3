@@ -5,7 +5,6 @@ class DBconnect {
     private $user = 'root';
     private $pass = '';
     private $pdo;
-    private $db;
 
     // Méthode de connexion
     public function connect() {
