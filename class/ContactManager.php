@@ -1,5 +1,4 @@
 <?php
-require_once 'DBconnect.php';
 
 class ContactManager {
     public function findAll() // Récupère tous les contacts de la base de données

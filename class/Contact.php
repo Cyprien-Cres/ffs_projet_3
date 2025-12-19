@@ -1,6 +1,4 @@
 <?php
-require_once 'DBconnect.php';
-require_once 'ContactManager.php';
 class Contact {
     public function getId() { // Récupère l'ID
         $contactManager = new ContactManager();
@@ -29,9 +27,9 @@ class Contact {
     public function toString() { // Affiche toutes les informations des contacts sous forme de chaîne de caractères
         $contactManager = new ContactManager();
         $contacts = $contactManager->findAll();
-
+        echo "Contacts :";
         foreach ($contacts as $contact) {
-            echo "Contact : "  . "\n" . " - ID : " . $contact['id']
+            echo "\n" . " - ID : " . $contact['id']
                 . "\n" . " - Nom : " . $contact['name']
                 . "\n" . " - Email : " . $contact['email']
                 . "\n" . " - Numéro téléphone : " . $contact['phone_number'] . "\n";
