@@ -24,15 +24,23 @@ class Contact {
         }
     }
 
-    public function toString() { // Affiche toutes les informations des contacts sous forme de chaîne de caractères
+    public function toString($id = null) {
         $contactManager = new ContactManager();
-        $contacts = $contactManager->findAll();
-        echo "Contacts :";
+
+        if ($id !== null) {
+            $result = $contactManager->findById($id);
+            $contacts = isset($result['id']) ? [$result] : $result;
+            echo "Contact :\n";
+        } else {
+            $contacts = $contactManager->findAll();
+            echo "Contacts :\n";
+        }
+
         foreach ($contacts as $contact) {
-            echo "\n" . " - ID : " . $contact['id']
-                . "\n" . " - Nom : " . $contact['name']
-                . "\n" . " - Email : " . $contact['email']
-                . "\n" . " - Numéro téléphone : " . $contact['phone_number'] . "\n";
+            echo "\n" . " - ID : " . ($contact['id'] ?? '')
+                . "\n - Nom : " . ($contact['name'] ?? '')
+                . "\n - Email : " . ($contact['email'] ?? '')
+                . "\n - Numéro téléphone : " . ($contact['phone_number'] ?? '') . "\n";
         }
     }
 }

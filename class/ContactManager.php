@@ -22,4 +22,27 @@ class ContactManager {
             return "Échec de la requête : " . $e->getMessage();
         }
     }
+
+    public function findById($id) {
+        $db = new DBconnect();
+        $pdo = $db->connect();
+
+        try {
+            $stmt = $pdo->prepare('SELECT * FROM contact WHERE id = :id');
+            if ($stmt === false) {
+                return "Échec de la préparation de la requête.";
+            }
+
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            if ($stmt->execute() === false) {
+                return "Échec de l'exécution de la requête.";
+            }
+
+            $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $contacts ?: "";
+        } catch (PDOException $e) {
+            return "Échec de la requête : " . $e->getMessage();
+        }
+    }
 }
