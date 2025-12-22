@@ -1,12 +1,10 @@
 <?php
-
 class ContactManager {
-    public function findAll() // Récupère tous les contacts de la base de données
-    {
+    public function findAll() { // Récupère tous les contacts
         $db = new DBconnect();
         $pdo = $db->connect();
 
-        try {
+        try { // Préparation et exécution de la requête SQL
             $stmt = $pdo->prepare('SELECT * FROM contact');
             if ($stmt === false) {
                 return "Échec de la préparation de la requête.";
@@ -16,41 +14,42 @@ class ContactManager {
                 return "Échec de l'exécution de la requête.";
             }
 
-            $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $contacts = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $contacts ?: [];
-        } catch (PDOException $e) {
+        } catch (PDOException $e) { // Gestion des erreurs
             return "Échec de la requête : " . $e->getMessage();
         }
     }
 
-    public function findById($id) {
+    public function findById($id) { // Récupère un contact par son ID
         $db = new DBconnect();
         $pdo = $db->connect();
 
-        try {
+        try { // Préparation et exécution de la requête SQL
             $stmt = $pdo->prepare('SELECT * FROM contact WHERE id = :id');
             if ($stmt === false) {
                 return "Échec de la préparation de la requête.";
             }
 
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmtExecute = $stmt->execute();
 
-            if ($stmt->execute() === false) {
+            if ($stmtExecute === false) {
                 return "Échec de l'exécution de la requête.";
             }
 
-            $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $contacts ?: "";
-        } catch (PDOException $e) {
+            $contacts = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return $contacts ?: [];
+        } catch (PDOException $e) { // Gestion des erreurs
             return "Échec de la requête : " . $e->getMessage();
         }
     }
 
-    public function create($name, $email, $phone_number) {
+    public function create(string $name, string $email, string $phone_number){ // Crée un nouveau contact
         $db = new DBconnect();
         $pdo = $db->connect();
 
-        try {
+        try { // Préparation et exécution de la requête SQL
             $stmt = $pdo->prepare('INSERT INTO contact (name, email, phone_number) VALUES (:name, :email, :phone_number)');
             if ($stmt === false) {
                 return "Échec de la préparation de la requête.";
@@ -60,27 +59,27 @@ class ContactManager {
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':phone_number', $phone_number);
             $stmt->execute();
-        } catch (PDOException $e) {
+        } catch (PDOException $e) { // Gestion des erreurs
             return "Échec de la requête : " . $e->getMessage();
         }
     }
 
-    public function delete($id) {
+    public function delete(int $id){ // Supprime un contact par son ID
         $db = new DBconnect();
         $pdo = $db->connect();
 
-        try {
+        try { // Préparation et exécution de la requête SQL
             $stmt = $pdo->prepare('DELETE FROM contact WHERE id = :id');
             if ($stmt === false) {
                 return "Échec de la préparation de la requête.";
             }
 
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-            if ($stmt->execute() === false) {
+            $stmtExecute = $stmt->execute();
+            if ($stmtExecute=== false) {
                 return "Échec de l'exécution de la requête.";
             }
-        } catch (PDOException $e) {
+        } catch (PDOException $e) { // Gestion des erreurs
             return "Échec de la requête : " . $e->getMessage();
         }
     }
