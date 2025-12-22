@@ -24,35 +24,34 @@ class Contact {
         }
     }
 
-    public function toString($id = null) {
+    public function toString($id = null) { // Affiche les informations d'un contact spécifique ou de tous les contacts
         $contactManager = new ContactManager();
 
-        if ($id !== null) {
+        if ($id !== null) { // Si un ID est fourni, afficher les informations du contact correspondant
             $result = $contactManager->findById($id);
             $contacts = isset($result['id']) ? [$result] : $result;
             if ($contacts === null || $contacts === '') {
                 return "Aucun contact trouvé avec l'id : $id. \n";
             } else {
-                echo "Contact :\n";
-
-                foreach ($contacts as $contact) {
-                    echo "\n" . " - ID : " . ($contact['id'] ?? '')
-                        . "\n - Nom : " . ($contact['name'] ?? '')
-                        . "\n - Email : " . ($contact['email'] ?? '')
-                        . "\n - Numéro téléphone : " . ($contact['phone_number'] ?? '') . "\n";
+                echo "Contact :\n";// Afficher les informations du contact
+                foreach ($contacts as $contact) { // Boucle permettant d'afficher les informations de chaque contact
+                    echo "(" . ($contact->id ?? '')
+                        . ", " . ($contact->name ?? '')
+                        . ", " . ($contact->email ?? '')
+                        . ", " . ($contact->phone_number ?? '') . ") \n";
                 }
             }
-        } else {
+        } else { // Si aucun ID n'est fourni, afficher les informations de tous les contacts
             $contacts = $contactManager->findAll();
             if ($contacts === null || $contacts === '') {
                 return "Aucuns contacts trouvés.\n";
             } else {
                 echo "Contacts :\n";
-                foreach ($contacts as $contact) {
-                    echo "\n" . " - ID : " . ($contact['id'] ?? '')
-                        . "\n - Nom : " . ($contact['name'] ?? '')
-                        . "\n - Email : " . ($contact['email'] ?? '')
-                        . "\n - Numéro téléphone : " . ($contact['phone_number'] ?? '') . "\n";
+                foreach ($contacts as $contact) { // Boucle permettant d'afficher les informations de chaque contact
+                    echo "(" . ($contact->id ?? '')
+                        . ", " . ($contact->name ?? '')
+                        . ", " . ($contact->email ?? '')
+                        . ", " . ($contact->phone_number ?? '') . ") \n";
                 }
             }
         }
