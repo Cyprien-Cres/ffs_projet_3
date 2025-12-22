@@ -30,17 +30,31 @@ class Contact {
         if ($id !== null) {
             $result = $contactManager->findById($id);
             $contacts = isset($result['id']) ? [$result] : $result;
-            echo "Contact :\n";
+            if ($contacts === null || $contacts === '') {
+                return "Aucun contact trouvé avec l'id : $id. \n";
+            } else {
+                echo "Contact :\n";
+
+                foreach ($contacts as $contact) {
+                    echo "\n" . " - ID : " . ($contact['id'] ?? '')
+                        . "\n - Nom : " . ($contact['name'] ?? '')
+                        . "\n - Email : " . ($contact['email'] ?? '')
+                        . "\n - Numéro téléphone : " . ($contact['phone_number'] ?? '') . "\n";
+                }
+            }
         } else {
             $contacts = $contactManager->findAll();
-            echo "Contacts :\n";
-        }
-
-        foreach ($contacts as $contact) {
-            echo "\n" . " - ID : " . ($contact['id'] ?? '')
-                . "\n - Nom : " . ($contact['name'] ?? '')
-                . "\n - Email : " . ($contact['email'] ?? '')
-                . "\n - Numéro téléphone : " . ($contact['phone_number'] ?? '') . "\n";
+            if ($contacts === null || $contacts === '') {
+                return "Aucuns contacts trouvés.\n";
+            } else {
+                echo "Contacts :\n";
+                foreach ($contacts as $contact) {
+                    echo "\n" . " - ID : " . ($contact['id'] ?? '')
+                        . "\n - Nom : " . ($contact['name'] ?? '')
+                        . "\n - Email : " . ($contact['email'] ?? '')
+                        . "\n - Numéro téléphone : " . ($contact['phone_number'] ?? '') . "\n";
+                }
+            }
         }
     }
 }

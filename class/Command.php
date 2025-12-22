@@ -14,11 +14,35 @@ class Command {
                     continue;
                 }
                 $contact = new Contact();
-                if ($contact === null || $contact === '') {
+                $contactData = $contact->toString($id);
+                echo $contactData . "\n";
+            } elseif ($line === 'create') {
+                $name = trim(readline("Entrez le nom du contact : "));
+                $email = trim(readline("Entrez l'email du contact : "));
+                $phone_number = trim(readline("Entrez le numéro de téléphone du contact : "));
+
+                $newContact = new ContactManager();
+                $newContact->create($name, $email, $phone_number);
+
+                if ($newContact === null) {
+                    echo "Échec de la création du contact. \n";
+                } else {
+                    echo "Contact créé avec succès.\n";
+                }
+
+            } elseif(preg_match('/^delete(?:\s+(\d+))?$/', $line, $matches)) {
+                $id = isset($matches[1]) && $matches[1] !== '' ? $matches[1] : trim(readline("Entrez l'id du contact : "));
+                if ($id === '') {
+                    echo "Aucun id fourni.\n";
+                    continue;
+                }
+                $contact = new ContactManager();
+                $contactById = $contact->findById($id);
+                if ($contactById === null || $contactById === '') {
                     echo "Contact introuvable pour l'id $id.\n";
                 } else {
-                    $contactData = $contact->toString($id);
-                    echo $contactData . "\n";
+                    $contact->delete($id);
+                    echo "Le contact à supprimé avec succès" . "\n";
                 }
             } else {
                 echo "Votre commande : $line , n'est pas reconnue. Veuillez réessayer.\n";
