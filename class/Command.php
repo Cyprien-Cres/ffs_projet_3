@@ -44,6 +44,13 @@ class Command {
                     $contact->delete($id);
                     echo "Le contact à supprimé avec succès" . "\n";
                 }
+            } elseif($line === 'help') {
+                echo "Commandes disponibles :\n" .
+                    " - list : Affiche la liste de tous les contacts.\n" .
+                    " - detail [id] : Affiche les détails du contact avec l'id spécifié. Si l'id n'est pas fourni.\n" .
+                    " - create : Crée un nouveau contact en demandant le nom, l'email et le numéro de téléphone.\n" .
+                    " - delete [id] : Supprime le contact avec l'id spécifié.\n" .
+                    " - help : Affiche cette aide.\n";
             } else {
                 echo "Votre commande : $line , n'est pas reconnue. Veuillez réessayer.\n";
             }
