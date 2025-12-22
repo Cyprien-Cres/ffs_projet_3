@@ -1,60 +1,42 @@
 <?php
-class Contact {
-    public function getId() { // Récupère l'ID
-        $contactManager = new ContactManager();
-        $contacts = $contactManager->findAll();
+class DBconnect {
+    private $host;
+    private $db_name;
+    private $user;
+    private $pass;
+    private $pdo;
 
-        if (isset($contacts['id'])) {
-            foreach ($contacts as $contact) {
-                echo "ID: " . $contact['id'] . "\n";
-            }
-        } else {
-            return NULL;
-        }
-    }
-    public function getName() { // Récupère et affiche les noms des contacts
-        $contactManager = new ContactManager();
-        $contacts = $contactManager->findAll();
-        if (isset($contacts['name'])) {
-            foreach ($contacts as $contact) {
-                echo "Name: " . $contact['name'] . "\n";
-            }
-        } else {
-            return NULL;
-        }
+    public function __construct() {
+        $this->loadEnv();
+        $this->host = $_ENV['DB_HOST'] ?? '127.0.0.1';
+        $this->db_name = $_ENV['DB_NAME'] ?? '';
+        $this->user = $_ENV['DB_USER'] ?? 'root';
+        $this->pass = $_ENV['DB_PASS'] ?? '';
     }
 
-    public function toString($id = null) {
-        $contactManager = new ContactManager();
-
-        if ($id !== null) {
-            $result = $contactManager->findById($id);
-            $contacts = isset($result['id']) ? [$result] : $result;
-            if ($contacts === null || $contacts === '') {
-                return "Aucun contact trouvé avec l'id : $id. \n";
-            } else {
-                echo "Contact :\n";
-
-                foreach ($contacts as $contact) {
-                    echo "\n" . " - ID : " . ($contact['id'] ?? '')
-                        . "\n - Nom : " . ($contact['name'] ?? '')
-                        . "\n - Email : " . ($contact['email'] ?? '')
-                        . "\n - Numéro téléphone : " . ($contact['phone_number'] ?? '') . "\n";
+    private function loadEnv() {
+        $envFile = __DIR__ . '/../.env';
+        if (file_exists($envFile)) {
+            $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            foreach ($lines as $line) {
+                if (strpos($line, '#') === 0) continue;
+                if (strpos($line, '=') !== false) {
+                    list($key, $value) = explode('=', $line, 2);
+                    $_ENV[trim($key)] = trim($value);
                 }
             }
-        } else {
-            $contacts = $contactManager->findAll();
-            if ($contacts === null || $contacts === '') {
-                return "Aucuns contacts trouvés.\n";
-            } else {
-                echo "Contacts :\n";
-                foreach ($contacts as $contact) {
-                    echo "\n" . " - ID : " . ($contact['id'] ?? '')
-                        . "\n - Nom : " . ($contact['name'] ?? '')
-                        . "\n - Email : " . ($contact['email'] ?? '')
-                        . "\n - Numéro téléphone : " . ($contact['phone_number'] ?? '') . "\n";
-                }
-            }
+        }
+    }
+
+    public function connect() {
+        try {
+            $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->db_name . ';charset=utf8mb4';
+            $this->pdo = new PDO($dsn, $this->user, $this->pass);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $this->pdo;
+        } catch (Exception $exception) {
+            echo 'Erreur de connexion : ' . $exception->getMessage();
+            exit;
         }
     }
 }
