@@ -26,6 +26,7 @@ class Command {
 
                 if($name === '' || $email === '' || $phone_number === '') { // Vérification des champs vides
                     echo "Tous les champs sont obligatoires. Veuillez réessayer.\n";
+                    continue;
                 }
                 if ($newContact === null) { // Vérification de la création
                     echo "Échec de la création du contact. \n";
