@@ -1,8 +1,6 @@
 <?php
-require "class/DBconnect.php";
-require 'class/ContactManager.php';
-require 'class/Contact.php';
-require 'class/Command.php';
+require 'class/Autoloader.php';
+\Cyprien\Autoloader::register();
 
-$command = new Command();
+$command = new \Cyprien\Command();
 $command->command();
