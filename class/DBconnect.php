@@ -1,13 +1,21 @@
 <?php
+declare(strict_types=1);
+/**
+ * Classe de connexion à la base de données.
+ */
 namespace Cyprien;
 class DBconnect
 {
-    private $host;
-    private $db_name;
-    private $user;
-    private $pass;
-    private $pdo;
+    private $host; /** @var mixed|string  */
+    private $db_name; /** @var mixed|string  */
+    private $user; /** @var mixed|string  */
+    private $pass; /** @var mixed|string  */
+    private $pdo; /** @var \PDO  */
 
+
+    /**
+     * Constructeur qui initialise les paramètres de connexion à la base de données.
+     */
     public function __construct()
     {
         $this->loadEnv();
@@ -17,7 +25,10 @@ class DBconnect
         $this->pass = $_ENV['DB_PASS'] ?? '';
     }
 
-    private function loadEnv()
+    /**
+     * Charge les variables d'environnement à partir du fichier .env.
+     */
+    private function loadEnv(): void
     {
         $envFile = __DIR__ . '/../.env';
         if (file_exists($envFile))
@@ -35,7 +46,13 @@ class DBconnect
         }
     }
 
-    public function connect()
+
+    /**
+     * Établit une connexion à la base de données et retourne l'objet PDO.
+     *
+     * @return \PDO Pour interagir avec la base de données.
+     */
+    public function connect(): \PDO
     {
         try
         {
@@ -43,7 +60,7 @@ class DBconnect
             $this->pdo = new \PDO($dsn, $this->user, $this->pass);
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             return $this->pdo;
-        } catch (Exception $exception) {
+        } catch (\PDOException $exception) {
             echo 'Erreur de connexion : ' . $exception->getMessage();
             exit;
         }

@@ -1,8 +1,12 @@
 <?php
-require "class/DBconnect.php";
-require 'class/ContactManager.php';
-require 'class/Contact.php';
-require 'class/Command.php';
+namespace CresCyprien;
+/**
+ * Fichier principal pour exécuter les commandes liées aux contacts.
+ */
+use Cyprien\Autoloader;
+use Cyprien\Command;
+require 'class/Autoloader.php';
+Autoloader::register();
 
-$command = new Command(); // Création de l'objet Command
-$command->command(); // Exécution de la méthode command
+$command = new Command();
+$command->command();
