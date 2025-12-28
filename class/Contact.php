@@ -76,20 +76,22 @@ class Contact
                         . ", " . ($contact->phone_number ?? '') . ") \n";
                 }
             }
-        }
-        $contacts = $contactManager->findAll(); /** Si aucun ID n'est fourni, afficher les informations de tous les contacts */
-        if ($contacts === null || $contacts === '')
-        {
-            return "Aucuns contacts trouvés.\n";
         } else
         {
-            echo "Contacts :\n";
-            foreach ($contacts as $contact)
+            $contacts = $contactManager->findAll(); /** Si aucun ID n'est fourni, afficher les informations de tous les contacts */
+            if ($contacts === null || $contacts === '')
             {
-                echo "(" . ($contact->id ?? '')
-                    . ", " . ($contact->name ?? '')
-                    . ", " . ($contact->email ?? '')
-                    . ", " . ($contact->phone_number ?? '') . ") \n";
+                return "Aucuns contacts trouvés.\n";
+            } else
+            {
+                echo "Contacts :\n";
+                foreach ($contacts as $contact)
+                {
+                    echo "(" . ($contact->id ?? '')
+                        . ", " . ($contact->name ?? '')
+                        . ", " . ($contact->email ?? '')
+                        . ", " . ($contact->phone_number ?? '') . ") \n";
+                }
             }
         }
         return "";
