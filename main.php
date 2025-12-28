@@ -1,6 +1,12 @@
 <?php
+namespace CresCyprien;
+/**
+ * Fichier principal pour exécuter les commandes liées aux contacts.
+ */
+use Cyprien\Autoloader;
+use Cyprien\Command;
 require 'class/Autoloader.php';
-\Cyprien\Autoloader::register();
+Autoloader::register();
 
-$command = new \Cyprien\Command();
+$command = new Command();
 $command->command();
