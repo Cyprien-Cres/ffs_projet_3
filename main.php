@@ -1,5 +1,5 @@
 <?php
-namespace CresCyprien;
+namespace Cyprien;
 /**
  * Fichier principal pour exécuter les commandes liées aux contacts.
  */

@@ -98,6 +98,7 @@ class Command {
                     " - detail [id] : Affiche les détails du contact avec l'id spécifié. Si l'id n'est pas fourni.\n" .
                     " - create : Crée un nouveau contact en demandant le nom, l'email et le numéro de téléphone.\n" .
                     " - delete [id] : Supprime le contact avec l'id spécifié.\n" .
+                    " - quit : Quitte l'application.\n" .
                     " - help : Affiche cette aide.\n";
             } elseif($line === 'quit') /** Quitte le programme */
             {

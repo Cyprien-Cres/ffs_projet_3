@@ -19,7 +19,7 @@ class DBconnect
     public function __construct()
     {
         $this->loadEnv();
-        $this->host = $_ENV['DB_HOST'] ?? '127.0.0.1';
+        $this->host = $_ENV['DB_HOST'] ?? 'localhost';
         $this->db_name = $_ENV['DB_NAME'] ?? '';
         $this->user = $_ENV['DB_USER'] ?? 'root';
         $this->pass = $_ENV['DB_PASS'] ?? '';
